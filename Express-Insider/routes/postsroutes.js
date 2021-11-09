@@ -31,6 +31,13 @@ let postusername = [
     score: 0,
     secretWord: "Unknown",
     id: "305898e8-c484-437d-a2c3-b2044241f4b7",
+  },
+  {
+    title: "",
+    username: "flygkaptenen",
+    score: 0,
+    secretWord: "Unknown",
+    id: "323897e8-c484-437d-a2c3-b2044241f3t1",
   }
 ];
 
@@ -135,29 +142,41 @@ route.post("/add/user/:username", (req, res) => {
  *            description: Succes
  */
 route.put("/start/:userAndWord", (req, res) => {
+  resetTitles();
   const user = req.params.userAndWord;
   let secret = user.split(",")[1];
   const person = postusername.filter(x => x.username === user.split(",")[0])
   person[0].secretWord = user.split(",")[1];
   person[0].title = "Game host";
-  console.log(person);
   res.status(200).send();
   
-  randomizeInsider(host, secret);
+  randomizeInsider(person[0].username, secret);
 })
+
+function resetTitles(){
+    for(let x of postusername){
+      x.title = "";
+      x.secretWord = "";
+    }
+}
 
 function randomizeInsider(host, secret){
 
-  const randomizedInt = Math.random() * postusername.length;
+  let randomizedInt = 0;
+  randomizedInt = Math.random() * (postusername.length-1);
+  const rounded = Math.round(randomizedInt)
+  console.log(rounded)
 
-  for(let i = 0; i < postusername.length; i++){
-    if(something[i].username === host){
-
+  for(let i = 0; i < postusername.length-1; i++){
+    if(postusername[rounded].username !== host){
+      postusername[rounded].title = "Insider";
+      postusername[rounded].secretWord = secret;
+    } else {
+      console.log(rounded, "hit host")
+      randomizeInsider(host, secret);
     }
   }
 
-    postusername[3].title = "Insider";
-    postusername[3].secretWord = secret;
 
     for(let player of postusername){
         if(player.title != "Game host"){
