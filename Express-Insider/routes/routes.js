@@ -151,62 +151,64 @@ route.post("/add/user/:username", (req, res) => {
  */
 route.put("/start/:userAndWord", (req, res) => {
   resetTitles();
+  console.log(" SPELET ÄR IGÅNG:")
 
   const userAndWord = req.params.userAndWord;
 
   let UserNameIn = userAndWord.split(",")[0];
   let secret = userAndWord.split(",")[1];
- 
-    let objUser = userList.filter(x=>x.username === UserNameIn)
-                          .reduce((prev)=>prev)
 
-//console.log(objUser)
+  let objUser = userList.filter(x => x.username === UserNameIn)
+    .reduce((prev) => prev)
 
-objUser.secretWord = secret
-objUser.title = "Game host"
+  //console.log(objUser)
+
+  objUser.secretWord = secret
+  objUser.title = "Game host"
 
   res.status(200).send();
-  
+
 
 
   randomizeInsider(objUser);
 })
 
-function resetTitles(){
-    for(let x of userList){
-      x.title = "";
-      x.secretWord = "";
-    }
+function resetTitles() {
+  for (let x of userList) {
+    x.title = "";
+    x.secretWord = "";
+  }
 }
 
 
-function randomizeInsider(objUser){
-  
+function randomizeInsider(objUser) {
+
 
   let randomizedInt = 0;
-  randomizedInt = Math.random() * (userList.length-1)
+  randomizedInt = Math.random() * (userList.length - 1)
   const rounded = Math.round(randomizedInt)
-  console.log(rounded)
+  //console.log(rounded)
 
-  for(let i = 0; i < userList.length-1; i++){
-    if(userList[rounded].username !== objUser.username){
-      userList[rounded].title = "Insider";
-      userList[rounded].secretWord = objUser.secretWord;
-    } else {
-      console.log(rounded, "hit host")
-      randomizeInsider(objUser);
-    }
+
+  if (userList[rounded].username != objUser.username) {
+
+    userList[rounded].title = "Insider";
+    userList[rounded].secretWord = objUser.secretWord;
+  } else {
+    console.log(/*rounded,*/ "hit host")
+    randomizeInsider(objUser);
   }
 
 
-    for(let player of userList){
-        if(player.title !== "Game host"){
-          if(player.title !== "Insider"){
-            player.title = "Player"
-          }
-        }
+
+  for (let player of userList) {
+    if (player.title !== "Game host") {
+      if (player.title !== "Insider") {
+        player.title = "Player"
+      }
     }
-    
+  }
+
 }
 
 
