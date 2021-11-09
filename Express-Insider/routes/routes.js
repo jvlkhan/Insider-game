@@ -158,9 +158,9 @@ route.put("/start/:userAndWord", (req, res) => {
   let secret = userAndWord.split(",")[1];
  
     let objUser = userList.filter(x=>x.username === UserNameIn)
-                          .reduce((prev)=>{return prev})
+                          .reduce((prev)=>prev)
 
-console.log(objUser)
+//console.log(objUser)
 
 objUser.secretWord = secret
 objUser.title = "Game host"
@@ -169,7 +169,7 @@ objUser.title = "Game host"
   
 
 
-  randomizeInsider(objUser.username, secret);
+  randomizeInsider(objUser);
 })
 
 function resetTitles(){
@@ -180,7 +180,8 @@ function resetTitles(){
 }
 
 
-function randomizeInsider(host, secret){
+function randomizeInsider(objUser){
+  
 
   let randomizedInt = 0;
   randomizedInt = Math.random() * (userList.length-1)
@@ -188,23 +189,24 @@ function randomizeInsider(host, secret){
   console.log(rounded)
 
   for(let i = 0; i < userList.length-1; i++){
-    if(userList[rounded].username !== host){
+    if(userList[rounded].username !== objUser.username){
       userList[rounded].title = "Insider";
-      userList[rounded].secretWord = secret;
+      userList[rounded].secretWord = objUser.secretWord;
     } else {
       console.log(rounded, "hit host")
-      randomizeInsider(host, secret);
+      randomizeInsider(objUser);
     }
   }
 
 
     for(let player of userList){
-        if(player.title != "Game host"){
-          if(player.title != "Insider"){
+        if(player.title !== "Game host"){
+          if(player.title !== "Insider"){
             player.title = "Player"
           }
         }
     }
+    
 }
 
 
