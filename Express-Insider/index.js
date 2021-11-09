@@ -19,7 +19,7 @@ const docs = swaggerJSDoc(options);
 
 const server = express();
 server.use(express.json());
-const PORT = 3000;
+const PORT = 5000;
 
 server.use("/swagger-docs", swaggerUI.serve, swaggerUI.setup(docs));
 server.use("/insider", postroutes);
