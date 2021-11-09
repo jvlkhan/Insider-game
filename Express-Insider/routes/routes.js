@@ -168,8 +168,6 @@ route.put("/start/:userAndWord", (req, res) => {
 
   res.status(200).send();
 
-
-
   randomizeInsider(objUser);
 })
 
@@ -182,12 +180,10 @@ function resetTitles() {
 
 
 function randomizeInsider(objUser) {
-
-
-  let randomizedInt = 0;
-  randomizedInt = Math.random() * (userList.length - 1)
+  //let randomizedInt = 0;
+  let randomizedInt = Math.random() * (userList.length - 1)
   const rounded = Math.round(randomizedInt)
-  //console.log(rounded)
+  console.log(rounded)
 
 
   if (userList[rounded].username != objUser.username) {
