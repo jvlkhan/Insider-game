@@ -24,6 +24,6 @@ const PORT = 5000;
 server.use("/swagger-docs", swaggerUI.serve, swaggerUI.setup(docs));
 server.use("/insider", routes);
 
-server.listen(PORT || 3000, () =>
+server.listen(PORT || 5000, () =>
   console.log(`Up and running at port ${PORT}`)
 );
